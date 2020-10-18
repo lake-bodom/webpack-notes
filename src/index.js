@@ -1,3 +1,5 @@
+import * as $ from 'jquery';
+
 import Post from '@models/Post'
 import './styles/styles.css';
 import json from './assets/json';
@@ -8,3 +10,6 @@ const post = new Post('Webpack post title', WebpackLogo);
 console.log('Post to string', post.toString());
 
 console.log('JSON', json);
+
+
+$('pre').html(post.toString());

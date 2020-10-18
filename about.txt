@@ -1,28 +1,22 @@
-для удобства при импортировании в js файлах, чтобы не прописывать их расширения, есть настройка для вебпака.
+работа со сторонними библиотеками и их оптимизация
 
-было import WebpackLogo from './assets/webpack-logo.png';
-стало import WebpackLogo from './assets/webpack-logo';
+для примера берется JQuerry
+npm i -S jquery
 
-добавляем в конфиг файл объект resolve.
-в котором прописвыаем необходимые расширения в массив extensions
-resolve: {
-  extensions: ['.js', '.json', '.png']
-},
+импорт в index.js
+import * as $ from 'jquery';
 
-при этом, не добавляя это правило расширения js и json установлены по умолчанию
+$('pre').html(post.toString());
 
-для прописывания абсолютных путей до файла, вместо относительных можно добавить alias.
-для демонстрации создадим директорию models, в которую поместим файл Post.js
-в объекте resolve, который был добавлен уже в конфиг добавлям объект, в котором будут прописаны необходимые алиасы
-пропишем для models и папки src
-resolve: {
-  extensions: ['.js', '.json', '.png'],
-  alias: {
-    '@models': path.resolve(__dirname, 'src/models'),
-    '@': path.resolve(__dirname, 'src'),
+применим jquery и в файле аналитики
+
+теперь jquery добавляется в каждый из бандлов тех файлов, которые используют эту библиотеку.
+
+необходима оптимизация. добавим в конфиг webpack
+optimization: {
+  splitChunks: {
+    chunks: 'all'
   }
 },
 
-результат манипуляций
-было import Post from './models/Post';
-стало import Post from '@models/Post';
+теперь общий код библиотек выносится отдельно
