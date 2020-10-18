@@ -1,13 +1,25 @@
-добавление webpack-dev-server для автоматической перезагрузки страницы при изменении файлов
+на предыдущих этапах стили устанавливались в тег style
+теперь вынесем их в отдельный файл.
 
-npm i -D webpack-dev-server
+для этого необходимо установить новый плагин
+npm i -D mini-css-extract-plugin
 
-для его работы в конфиге вебпака прописываем порт, на котором будет работать сервер
-devServer: {
-  port: 4200
+импорт в конфиге
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+добавляем в массив плагинов
+new MiniCssExtractPlugin({
+  filename: '[name].[contenthash].css'
+})
+
+файл стилей будет также иметь в названии хеш
+
+теперь, чтобы применить данный плагин правим правила для css в модулях.
+заменяем style-loader на лоадер из установленного плагина
+было
+{
+  test: /\.css$/,
+  use: ['style-loader', 'css-loader']
 },
 
-а так же добавим скрипт для запуска девсервера в package.json
-webpack serve
-
-
+стало
